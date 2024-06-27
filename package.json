@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://lab.videosdk.live/react-rtc-demo/",
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^1.0.6",
     "@popperjs/core": "^2.11.8",

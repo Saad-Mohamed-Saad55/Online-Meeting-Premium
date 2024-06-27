@@ -8,8 +8,7 @@ function ParticipantsViewer({ isPresenting }) {
     pinnedParticipants,
     activeSpeakerId,
     localParticipant,
-    localScreenShareOn,
-    presenterId,
+    
   } = useMeeting();
 
   const participantIds = useMemo(() => {
@@ -39,13 +38,7 @@ function ParticipantsViewer({ isPresenting }) {
       }
     }
     return ids;
-  }, [
-    participants,
-    activeSpeakerId,
-    pinnedParticipants,
-    presenterId,
-    localScreenShareOn,
-  ]);
+  }, [pinnedParticipants, participants, localParticipant.id, isPresenting, activeSpeakerId]);
 
   return (
     <MemoizedParticipantGrid
