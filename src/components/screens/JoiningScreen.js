@@ -127,16 +127,19 @@ export function JoiningScreen({
 
   useEffect(() => {
     getCameraDevices();
-  }, [isCameraPermissionAllowed]);
+  // eslint-disable-next-line no-use-before-define
+  }, [getCameraDevices, isCameraPermissionAllowed]);
 
   useEffect(() => {
     getAudioDevices();
-  }, [isMicrophonePermissionAllowed]);
+  // eslint-disable-next-line no-use-before-define
+  }, [getAudioDevices, isMicrophonePermissionAllowed]);
 
   useEffect(() => {
     checkMediaPermission();
     return () => { };
-  }, []);
+  // eslint-disable-next-line no-use-before-define
+  }, [checkMediaPermission]);
 
   const _toggleWebcam = () => {
     const videoTrack = videoTrackRef.current;
@@ -241,13 +244,14 @@ export function JoiningScreen({
     try {
       const permission = await requestPermission(mediaType);
 
+      // eslint-disable-next-line eqeqeq
       if (mediaType == Constants.permission.AUDIO) {
         setIsMicrophonePermissionAllowed(
           permission.get(Constants.permission.AUDIO)
         );
       }
 
-      if (mediaType == Constants.permission.VIDEO) {
+      if (mediaType === Constants.permission.VIDEO) {
         setIsCameraPermissionAllowed(
           permission.get(Constants.permission.VIDEO)
         );
@@ -273,6 +277,7 @@ export function JoiningScreen({
     getDefaultMediaTracks({ mic: micRef.current, webcam: webcamRef.current });
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const checkMediaPermission = async () => {
     const checkAudioVideoPermission = await checkPermissions();
     const cameraPermissionAllowed = checkAudioVideoPermission.get(
@@ -300,7 +305,8 @@ export function JoiningScreen({
     }
   };
 
-  const getCameraDevices = async () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps, no-undef
+  const getCameraDevices = useCallback(async () => {
     try {
       if (permissonAvaialble.current?.isCameraPermissionAllowed) {
         let webcams = await getCameras();
@@ -312,9 +318,10 @@ export function JoiningScreen({
     } catch (err) {
       console.log("Error in getting camera devices", err);
     }
-  };
+  });
 
-  const getAudioDevices = async () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps, no-undef
+  const getAudioDevices = useCallback(async () => {
     try {
       if (permissonAvaialble.current?.isMicrophonePermissionAllowed) {
 
@@ -333,7 +340,7 @@ export function JoiningScreen({
     } catch (err) {
       console.log("Error in getting audio devices", err);
     }
-  };
+  });
 
   const ButtonWithTooltip = ({ onClick, onState, OnIcon, OffIcon }) => {
     const btnRef = useRef();

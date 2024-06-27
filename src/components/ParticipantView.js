@@ -71,6 +71,7 @@ export const CornerDisplayName = ({
   const [audioStats, setAudioStats] = useState({});
   const [videoStats, setVideoStats] = useState({});
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateStats = async () => {
     let stats = [];
     let audioStats = [];
@@ -217,7 +218,7 @@ export const CornerDisplayName = ({
     return () => {
       if (statsIntervalIdRef.current) clearInterval(statsIntervalIdRef.current);
     };
-  }, [webcamStream, micStream, screenShareStream]);
+  }, [webcamStream, micStream, screenShareStream, updateStats]);
 
   return (
     <>

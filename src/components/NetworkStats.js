@@ -6,6 +6,7 @@ import { getNetworkStats } from "@videosdk.live/react-sdk";
 import WifiOff from "../icons/NetworkStats/WifiOff";
 import { useEffect, useState } from "react";
 
+// eslint-disable-next-line no-empty-pattern
 const NetworkStats = ({ }) => {
   const [error, setError] = useState("no-error-loading")
   const [uploadSpeed, setUploadSpeed] = useState(null)

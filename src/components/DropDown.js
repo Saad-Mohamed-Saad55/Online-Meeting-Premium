@@ -323,7 +323,7 @@ export default function DropDown({
     isMicrophonePermissionAllowed
   } = useMeetingAppContext();
   const [audioProgress, setAudioProgress] = useState(0);
-  const [recordingProgress, setRecordingProgress] = useState(0);
+  const [setRecordingProgress] = useState(0);
   const [recordingStatus, setRecordingStatus] = useState("inactive");
   const [recordingDuration, setRecordingDuration] = useState(0);
   const [volume, setVolume] = useState(null);
@@ -433,14 +433,15 @@ export default function DropDown({
     }
   };
 
-  const stopRecording = () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const stopRecording = useCallback(() => {
     if (mediaRecorder.current.state !== "inactive") {
       setRecordingProgress(0);
       setRecordingStatus("stopped recording");
       clearInterval(intervalRef.current);
       mediaRecorder.current.stop();
     }
-  };
+  });
 
   useEffect(() => {
     if (didDeviceChange) {
@@ -451,7 +452,7 @@ export default function DropDown({
       setRecordingProgress(0);
       setRecordingStatus("inactive");
     }
-  }, [didDeviceChange, setDidDeviceChange]);
+  }, [didDeviceChange, setDidDeviceChange, setRecordingProgress, stopRecording]);
 
   return (
     <>
