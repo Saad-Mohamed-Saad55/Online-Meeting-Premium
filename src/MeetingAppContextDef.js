@@ -1,4 +1,4 @@
-import { useContext, createContext, useState, useEffect, useRef } from "react";
+/*import { useContext, createContext, useState, useEffect, useRef } from "react";
 
 export const MeetingAppContext = createContext();
 
@@ -80,6 +80,108 @@ export const MeetingAppProvider = ({ children }) => {
 
         // setters
 
+        setRaisedHandsParticipants,
+        setSelectedMic,
+        setSelectedWebcam,
+        setSelectedSpeaker,
+        setSideBarMode,
+        setPipMode,
+        useRaisedHandParticipants,
+        setIsCameraPermissionAllowed,
+        setIsMicrophonePermissionAllowed,
+      }}
+    >
+      {children}
+    </MeetingAppContext.Provider>
+  );
+};
+*/
+
+import React, {
+  useContext,
+  createContext,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
+
+export const MeetingAppContext = createContext();
+
+export const useMeetingAppContext = () => useContext(MeetingAppContext);
+
+export const MeetingAppProvider = ({ children }) => {
+  const [selectedMic, setSelectedMic] = useState({ id: null, label: null });
+  const [selectedWebcam, setSelectedWebcam] = useState({
+    id: null,
+    label: null,
+  });
+  const [selectedSpeaker, setSelectedSpeaker] = useState({
+    id: null,
+    label: null,
+  });
+  const [isCameraPermissionAllowed, setIsCameraPermissionAllowed] =
+    useState(null);
+  const [isMicrophonePermissionAllowed, setIsMicrophonePermissionAllowed] =
+    useState(null);
+  const [raisedHandsParticipants, setRaisedHandsParticipants] = useState([]);
+  const [sideBarMode, setSideBarMode] = useState(null);
+  const [pipMode, setPipMode] = useState(false);
+
+  const useRaisedHandParticipants = () => {
+    const raisedHandsParticipantsRef = useRef(raisedHandsParticipants);
+
+    const participantRaisedHand = (participantId) => {
+      const updatedRaisedHands = [...raisedHandsParticipantsRef.current];
+
+      const participantIndex = updatedRaisedHands.findIndex(
+        ({ participantId: pID }) => pID === participantId
+      );
+
+      if (participantIndex === -1) {
+        updatedRaisedHands.push({
+          participantId,
+          raisedHandOn: new Date().getTime(),
+        });
+      } else {
+        updatedRaisedHands[participantIndex] = {
+          participantId,
+          raisedHandOn: new Date().getTime(),
+        };
+      }
+
+      setRaisedHandsParticipants(updatedRaisedHands);
+    };
+
+    useEffect(() => {
+      raisedHandsParticipantsRef.current = raisedHandsParticipants;
+    });
+
+    useEffect(() => {
+      const timer = setInterval(() => {
+        const updatedRaisedHands = raisedHandsParticipantsRef.current.filter(
+          ({ raisedHandOn }) =>
+            parseInt(raisedHandOn) + 15000 > new Date().getTime()
+        );
+        setRaisedHandsParticipants(updatedRaisedHands);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }, []);
+
+    return { participantRaisedHand };
+  };
+
+  return (
+    <MeetingAppContext.Provider
+      value={{
+        raisedHandsParticipants,
+        selectedMic,
+        selectedWebcam,
+        selectedSpeaker,
+        sideBarMode,
+        pipMode,
+        isCameraPermissionAllowed,
+        isMicrophonePermissionAllowed,
         setRaisedHandsParticipants,
         setSelectedMic,
         setSelectedWebcam,
