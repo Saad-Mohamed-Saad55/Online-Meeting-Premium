@@ -2,7 +2,7 @@
   "name": "react-sdk-example",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://premium-online-meeting.netlify.app/react-rtc-demo/",
+  "homepage": "https://lab.videosdk.live/",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@headlessui/react": "^1.7.17",
